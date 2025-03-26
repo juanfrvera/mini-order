@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { ref, type Ref } from 'vue'
 
+defineExpose({ getItems })
+
 const items: Ref<Array<{ id: string; name: string; price: number; description: string }>> = ref([])
+
+function getItems() {
+  return items.value
+}
 
 function createNewItemRow() {
   items.value.unshift({ id: crypto.randomUUID(), name: '', price: 0, description: '' })
