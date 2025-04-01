@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Item } from '@/typings/item';
+import type { Item } from '@/typings/item'
 import { ref, type Ref } from 'vue'
 
 defineExpose({ getItems })
@@ -16,9 +16,8 @@ function createNewItemRow() {
 </script>
 
 <template>
-  Hi, please add your catalog
   <button @click="createNewItemRow()">Add Item</button>
-  <ol>
+  <ol v-if="items.length">
     <li v-for="item in items" :key="item.id">
       <label>Name</label>
       <input v-model="item.name" />
@@ -30,6 +29,9 @@ function createNewItemRow() {
       <input v-model="item.description" />
     </li>
   </ol>
+  <div v-else>
+    <p>No items added yet. Click the button above to add an item.</p>
+  </div>
 </template>
 
 <style scoped></style>
