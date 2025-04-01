@@ -5,7 +5,7 @@ async function checkToken(headers) {
   if (auth) {
     if (auth.startsWith("Bearer ")) {
       const token = auth.slice("Bearer ".length);
-      const data = await verifyToken(token);
+      const data = await verifyAndDecryptToken(token);
       if (data && data.payload && data.payload.sub) {
         const userId = data.payload.sub;
         return true;
@@ -15,7 +15,7 @@ async function checkToken(headers) {
   }
 }
 
-async function verifyToken(jwt: string) {
+export async function verifyAndDecryptToken(jwt: string) {
   const secret = new TextEncoder().encode(process.env.JWT_SECRET);
   return jose.jwtVerify(jwt, secret, {});
 }
@@ -26,7 +26,7 @@ async function getAuthResponse(userId: string) {
   return { token, expirationDate };
 }
 
-function generateToken(payload) {
+export function generateToken(payload) {
   const secret = new TextEncoder().encode(process.env.JWT_SECRET);
   const expirationTime = process.env.JWT_EXPIRATION_TIME ?? "2h";
 
