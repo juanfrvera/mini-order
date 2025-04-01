@@ -16,7 +16,7 @@ function createNewItemRow() {
 </script>
 
 <template>
-  <button @click="createNewItemRow()">Add Item</button>
+  <button @click="createNewItemRow()" class="button-important">Add Item</button>
   <ol v-if="items.length">
     <li v-for="item in items" :key="item.id">
       <label>Name</label>
