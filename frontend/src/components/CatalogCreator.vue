@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import type { Item } from '@/typings/item';
 import { ref, type Ref } from 'vue'
 
 defineExpose({ getItems })
 
-const items: Ref<Array<{ id: string; name: string; price: number; description: string }>> = ref([])
+const items: Ref<Array<Item>> = ref([])
 
 function getItems() {
   return items.value
