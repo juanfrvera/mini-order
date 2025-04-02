@@ -1,4 +1,4 @@
-import * as jose from "jose";
+import { jwtVerify, SignJWT } from "jose";
 
 async function checkToken(headers) {
   const auth = headers.Authorization;
@@ -17,7 +17,7 @@ async function checkToken(headers) {
 
 export async function verifyAndDecryptToken(jwt: string) {
   const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-  return jose.jwtVerify(jwt, secret, {});
+  return jwtVerify(jwt, secret, {});
 }
 
 async function getAuthResponse(userId: string) {
@@ -30,7 +30,7 @@ export function generateToken(payload) {
   const secret = new TextEncoder().encode(process.env.JWT_SECRET);
   const expirationTime = process.env.JWT_EXPIRATION_TIME ?? "2h";
 
-  return new jose.SignJWT(payload)
+  return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setExpirationTime(expirationTime)
     .sign(secret);
