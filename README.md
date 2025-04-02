@@ -1,39 +1,35 @@
-# mini-order
+# Welcome!
 
-This template should help get you started developing with Vue 3 in Vite.
+Create catalogs so your clients can order:
 
-## Recommended IDE Setup
+1. You load our web app and create your catalog, where you can set the different items you sell with the prices and description.
+2. Set the url you want your catalog to be in: https://our-web-url/shop/your-shop-url
+3. Set the phone number where you want WhatsApp messages to reach.
+4. After you publish, send the url to your clients.
+5. When a client makes an order you will get a message from them directly on your WhatsApp number
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+# Dev guide:
 
-## Type Support for `.vue` Imports in TS
+This repo has /backend folder and a /frontend folder where each project is stored
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+# Backend guide:
 
-## Customize configuration
+The backend is coded in Node and uses Express to configure the different endpoints
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+1. cd /backend
+2. nvm use <node_version> // To check the node version you can see the /backend/.nvmrc file
+3. npm install
+4. npm start
 
-## Project Setup
+The backend by default uses in-memory data storage so you don't need anything else to try on your local
+If you want to connect to a database or configure things, create a .env file at /backend/.env and use the /backend/.env.example file as a guide to know which fields you can configure
 
-```sh
-npm install
-```
+# Frontend guide
 
-### Compile and Hot-Reload for Development
+The frontend is coded in Vue
 
-```sh
-npm run dev
-```
+1. cd /frontend
+2. npm install
+3. npm run dev
 
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+To configure things go to /frontend/lib/environment.ts
