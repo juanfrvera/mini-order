@@ -11,27 +11,105 @@ function getItems() {
 }
 
 function createNewItemRow() {
-  items.value.unshift({ id: crypto.randomUUID(), name: '', price: 0, description: '' })
+  items.value.push({ id: crypto.randomUUID(), name: '', price: 0, description: '' });
+  const lastIndex = items.value.length - 1
+
+  // Call in next tick after item is rendered
+  setTimeout(() => {
+    focusItemFirstInput(lastIndex);
+  });
+}
+
+function removeItem(index: number) {
+  items.value.splice(index, 1)
+}
+
+function descriptionKeyDown(event: KeyboardEvent, index: number) {
+  if (event.key === 'Enter' || event.key === 'Tab') {
+    // Prevent default behavior to avoid form submission
+    // and to allow custom navigation
+    event.stopPropagation()
+    event.preventDefault()
+    const nextIndex = index + 1
+    if (nextIndex < items.value.length) {
+      focusItemFirstInput(nextIndex);
+    } else {
+      // If it's the last item, create a new one
+      createNewItemRow()
+    }
+  }
+}
+
+function focusItemFirstInput(index: number) {
+  // nth-child starts from 1, so we need to add 1
+  const nthChild = index + 1
+  const firstInput = document.querySelector(`.item-row:nth-child(${nthChild}) .item-input`)
+  if (firstInput) {
+    (firstInput as HTMLInputElement).focus()
+  }
 }
 </script>
 
 <template>
-  <button @click="createNewItemRow()" class="button-important">Add Item</button>
-  <ol v-if="items.length">
-    <li v-for="item in items" :key="item.id">
-      <label>Name</label>
-      <input v-model="item.name" />
+  <ol v-if="items.length" class="item-list">
+    <li v-for="(item, index) in items" :key="item.id" class="item-row">
+      <span class="item-index">{{ index + 1 }}.</span>
 
-      <label>Price</label>
-      <input v-model="item.price" />
+      <div class="label-and-input">
+        <label>Name</label>
+        <input v-model="item.name" class="item-input" />
+      </div>
 
-      <label>Description</label>
-      <input v-model="item.description" />
+      <div class="label-and-input">
+        <label>Price</label>
+        <input v-model="item.price" class="item-input" />
+      </div>
+
+      <div class="label-and-input">
+        <label>Description</label>
+        <input v-model="item.description" @keydown="descriptionKeyDown($event, index)" class="item-input" />
+      </div>
+
+      <button @click="removeItem(index)" class="remove-item">Remove</button>
     </li>
   </ol>
   <div v-else>
     <p>No items added yet. Click the button above to add an item.</p>
   </div>
+  <button @click="createNewItemRow()" class="button-important">Add Item</button>
 </template>
 
-<style scoped></style>
+<style scoped>
+.item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item-row {
+  display: flex;
+  gap: 8px;
+}
+
+.item-index {
+  display: flex;
+  align-items: center;
+}
+
+.item-input {
+  padding: 4px;
+}
+
+.remove-item {
+  border: red 1px solid;
+  background-color: white;
+  padding: 6px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.remove-item:hover {
+  background-color: red;
+  color: white;
+}
+</style>

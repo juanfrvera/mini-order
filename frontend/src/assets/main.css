@@ -16,3 +16,9 @@
    padding: 8px;
    font-size: 16px;
 }
+
+.label-and-input {
+   display: flex;
+   align-items: center;
+   gap: 4px;
+}
