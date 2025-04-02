@@ -84,6 +84,7 @@ function focusItemFirstInput(index: number) {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  padding-inline-start: 10px;
 }
 
 .item-row {
