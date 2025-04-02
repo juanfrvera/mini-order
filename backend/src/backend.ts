@@ -1,10 +1,11 @@
 import { generateToken, verifyAndDecryptToken } from "./lib/auth";
+import { RepoCoordinator } from "./lib/repo-coordinator";
 
 const express = require("express");
-var cors = require("cors");
+const cors = require("cors");
 const app = express();
 const port = 3000;
-const catalogs = {};
+const repo = new RepoCoordinator();
 
 // Middleware to add CORS headers
 app.use(cors());
@@ -19,7 +20,7 @@ app.post("/publishCatalog", async (req, res) => {
   console.log("Received items:", JSON.stringify(items));
   console.log("Received phone:", phone);
 
-  saveCatalogForShop(shopUrl, items, phone);
+  repo.getCatalogRepo().saveCatalogForShop(shopUrl, items, phone);
 
   // This admin will have a token to edit their catalog
   const catalogEditToken = await generateToken({ sub: shopUrl });
@@ -35,8 +36,9 @@ app.get("/catalog/:shopUrl", (req, res) => {
   const { shopUrl } = req.params; // Extract the 'url' path parameter
   console.log("Requested catalog URL:", shopUrl);
 
-  if (catalogs[shopUrl]) {
-    res.status(200).json(catalogs[shopUrl]); // Return the catalog if it exists
+  const catalog = repo.getCatalogRepo().getCatalogForShop(shopUrl); // Get the catalog for the shop
+  if (catalog) {
+    res.status(200).json(catalog); // Return the catalog if it exists
   } else {
     res.status(404).json({ message: "Catalog not found" }); // Return 404 if not found
   }
@@ -61,7 +63,7 @@ app.put("/catalog/:shopUrl", async (req, res) => {
   }
 
   // Save new catalog
-  saveCatalogForShop(shopUrl, items, phone);
+  repo.getCatalogRepo().saveCatalogForShop(shopUrl, items, phone);
 
   res.status(200).json({
     message: "Catalog updated successfully!",
@@ -69,11 +71,5 @@ app.put("/catalog/:shopUrl", async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`App listening on port ${port}`);
 });
-
-function saveCatalogForShop(shopUrl, items, phone) {
-  // Save the catalog in memory
-  // In a real application, you would save this in a database
-  catalogs[shopUrl] = { items, phone };
-}
