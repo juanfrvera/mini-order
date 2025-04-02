@@ -4,9 +4,14 @@
 <template>
   <header>Mini Orders</header>
 
-  <main>
+  <main class="centered-main">
     <RouterView />
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+.centered-main {
+  margin: auto;
+  width: fit-content;
+}
+</style>
