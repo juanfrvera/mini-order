@@ -16,7 +16,7 @@ async function checkToken(headers) {
 }
 
 export async function verifyAndDecryptToken(jwt: string) {
-  const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+  const secret = new TextEncoder().encode(process.env.JWT_SECRET || "secret");
   return jwtVerify(jwt, secret, {});
 }
 
@@ -27,7 +27,7 @@ async function getAuthResponse(userId: string) {
 }
 
 export function generateToken(payload) {
-  const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+  const secret = new TextEncoder().encode(process.env.JWT_SECRET || "secret");
   const expirationTime = process.env.JWT_EXPIRATION_TIME ?? "2h";
 
   return new SignJWT(payload)

@@ -74,7 +74,7 @@ function focusItemFirstInput(index: number) {
     </li>
   </ol>
   <div v-else>
-    <p>No items added yet. Click the button above to add an item.</p>
+    <p>No items added yet. Let's create the first one.</p>
   </div>
   <button @click="createNewItemRow()" class="button-important">Add Item</button>
 </template>
