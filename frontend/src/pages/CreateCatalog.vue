@@ -2,6 +2,8 @@
 import { ref, useTemplateRef } from 'vue'
 import CatalogCreator from '../components/CatalogCreator.vue'
 import { RequestService } from '../lib/request.service'
+import { adminStore } from '@/lib/store'
+import { router } from '@/router'
 
 const catalogCreator = useTemplateRef('catalogCreator')
 const shopUrl = ref('')
@@ -16,6 +18,13 @@ async function publishCatalog() {
       .map((item) => `${item.name} - ${item.price} - ${item.description}`)
       .join('\n')
     alert(`Catalog published with success! Message:\n${message}`)
+
+    adminStore.startShop(shopUrl.value, response.catalogEditToken, items, phoneNumber.value, 'Shop Name');
+
+    // Go to shop's dashboard
+    router.push({
+      path: 'dashboard',
+    })
   } else {
     alert('Please add items, shop URL and phone number')
   }
