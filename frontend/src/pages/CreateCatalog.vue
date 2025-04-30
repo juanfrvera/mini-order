@@ -40,7 +40,7 @@ async function publishCatalog() {
   <CatalogCreator ref="catalogCreator"></CatalogCreator>
 
   <h2>Shop URL</h2>
-  <div class="label-and-input">
+  <div class="label-and-input_vertical">
     <label>Shop URL</label>
     <input v-model="shopUrl" class="input-important" />
   </div>
@@ -48,7 +48,7 @@ async function publishCatalog() {
   <h2>WhatsApp phone number</h2>
   <div>
     <p>Please add your WhatsApp number, where you want your clients to send the orders</p>
-    <div class="label-and-input">
+    <div class="label-and-input_vertical">
       <label>WhatsApp number</label>
       <input v-model="phoneNumber" class="input-important" />
     </div>

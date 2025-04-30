@@ -51,28 +51,28 @@ function focusItemFirstInput(index: number) {
 </script>
 
 <template>
-  <ol v-if="items.length" class="item-list">
-    <li v-for="(item, index) in items" :key="item.id" class="item-row">
-      <span class="item-index">{{ index + 1 }}.</span>
+  <ul v-if="items.length" class="item-list">
+    <li v-for="(item, index) in items" :key="item.id" class="item-row box">
+      <!-- <span class="item-index">{{ index + 1 }}.</span> -->
 
-      <div class="label-and-input">
+      <div class="label-and-input_vertical full-width">
         <label>Name</label>
         <input v-model="item.name" class="item-input" />
       </div>
 
-      <div class="label-and-input">
+      <div class="label-and-input_vertical full-width">
         <label>Price</label>
         <input v-model="item.price" class="item-input" />
       </div>
 
-      <div class="label-and-input">
+      <div class="label-and-input_vertical full-width">
         <label>Description</label>
-        <input v-model="item.description" @keydown="descriptionKeyDown($event, index)" class="item-input" />
+        <textarea v-model="item.description" @keydown="descriptionKeyDown($event, index)" class="item-input" />
       </div>
 
       <button @click="removeItem(index)" class="remove-item">Remove</button>
     </li>
-  </ol>
+  </ul>
   <div v-else>
     <p>No items added yet. Let's create the first one.</p>
   </div>
@@ -89,6 +89,7 @@ function focusItemFirstInput(index: number) {
 
 .item-row {
   display: flex;
+  flex-direction: column;
   gap: 8px;
 }
 
